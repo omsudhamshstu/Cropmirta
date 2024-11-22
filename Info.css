@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Montaga&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Ubuntu+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+
+body {
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    background-image: url('bg2.jpg');
+    background-size: cover; /* Cover the entire container */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat;
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    overflow: hidden; /* Prevent overflow */
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+    justify-content: center;
+    max-width: 1200px; /* Maximum width for the container */
+    margin: auto; /* Center the container */
+}
+
+.box {
+    /* background-color: rgba(255, 255, 255, 0.7); */
+    border: 2px solid rgba(76, 175, 80, 0.5);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 300px;
+    max-width: 90%;
+    text-align: center;
+    background-color: #f4f4f4;
+}
+
+.box h3 {
+    color: green;
+}
+
+.box p {
+    margin: 10px 0;
+    color: black;
+}
+
+.glass-header {
+    position: relative;
+    padding: 20px; /* Adjust padding as needed */
+    color: white; /* Change text color to white for contrast */
+    z-index: 1; /* Ensure the text is above the blurred background */
+    text-align: center;
+}
+
+.glass-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    backdrop-filter: blur(34px); /* Adjust blur intensity as needed */
+    background-color: rgba(255, 255, 255, 0.2); /* Optional: semi-transparent background for better visibility */
+    border-radius: 8px; /* Match border-radius with the header */
+    z-index: -1; /* Ensure the blur is behind the text */
+}

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="leaf.png">
+<title>CropMitra - Sign Up</title>
+<link rel="stylesheet" href="styles.css">
+<script>
+function signup() {
+  const username = document.getElementById("username").value;
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+  const confirmPassword = document.getElementById("confirm-password").value;
+  const phone = document.getElementById("phone").value;
+  const location = document.getElementById("location").value;
+
+  if (username && email && password && confirmPassword && phone && location) {
+    if (password !== confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
+    
+    // Store the new user data in localStorage (for demo purposes)
+    localStorage.setItem("username", username);
+    localStorage.setItem("email", email);
+    localStorage.setItem("password", password);
+    localStorage.setItem("phone", phone);
+    localStorage.setItem("location", location);
+    
+    alert("Account created successfully!");
+    window.location.href = "index.html"; // Redirect to login page
+  } else {
+    alert("Please fill in all fields.");
+  }
+}
+</script>
+</head>
+<body>
+  <div class="container">
+    <div class="left-section">
+      <h1>CropMitra <span class="leaf">🌿</span></h1>
+      <p id="firstPara"><b>Empowering Farmer with </b><span class="highlight"><i>Real-Time Data</i></span> <b>with Smart Irrigation</b></p>
+    </div>
+    <div class="right-section">
+      <h2>Sign Up</h2>
+      <form onsubmit="signup(); return false;">
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="email" id="email" placeholder="Email" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+        <input type="text" id="phone" placeholder="Phone Number" required>
+        <input type="text" id="location" placeholder="Location" required>
+        <button type="submit">Sign Up</button>
+        <div class="links">
+          <p>Already have an account? <a href="index.html"><span>Sign In</span></a> </p>
+        </div>
+      </form>
+    </div>
+  </div>
+</body>
+</html>

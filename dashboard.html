@@ -7,38 +7,41 @@
     <link rel="stylesheet" href="dashboars.css">
     <title>CropMitra - Dashboard</title>
     <script>
-        const WEATHER_API_KEY = "7139a5d917e052599fe3181d1e967271";
-    
+        const WEATHER_API_KEY = "7139a5d917e052599fe3181d1e967271"; // Your Weather API key (OpenWeatherMap)
+
+        // Moisture API key (not used, but placeholder if needed later)
+        const MOISTURE_API_KEY = "YOUR_MOISTURE_API_KEY"; 
+
+        // Fetch weather data based on location input
         async function fetchWeatherData(location) {
             try {
                 const GEOCODE_URL = `https://api.openweathermap.org/geo/1.0/direct?q=${encodeURIComponent(location)}&limit=1&appid=${WEATHER_API_KEY}`;
                 const geocodeResponse = await fetch(GEOCODE_URL);
                 const geocodeData = await geocodeResponse.json();
-    
+
                 if (geocodeData.length > 0) {
                     const { lat, lon } = geocodeData[0];
-    
+
                     const WEATHER_URL = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`;
                     const weatherResponse = await fetch(WEATHER_URL);
                     const weatherData = await weatherResponse.json();
-    
-                    console.log("Weather API Response:", weatherData);
-    
+
                     if (weatherData.cod === 200) {
                         const temperature = Math.round(weatherData.main.temp);
                         const humidity = weatherData.main.humidity;
-    
+
                         document.getElementById("humidity").innerText = humidity + "%";
                         document.getElementById("temperature").innerText = temperature + "°C";
+
+                        // Placeholder values
                         document.getElementById("moisture").innerText = "Optimal";
                         document.getElementById("valveStatus").innerText = "OFF";
-                        
+
                         // Update location display
                         document.getElementById("location").innerText = location;
                         localStorage.setItem("location", location);
                     } else {
                         alert("Error fetching weather data. Please try again.");
-                        console.error("Error:", weatherData.message);
                     }
                 } else {
                     alert("Location not found. Please check the spelling and try again.");
@@ -48,83 +51,118 @@
                 alert("There was an error fetching the weather data. Please try again.");
             }
         }
-    
+
+        // Handle the location input from the user
         function handleLocationInput() {
             const location = document.getElementById("input-field").value.trim();
-            console.log("Location entered:", location);
             if (location) {
                 fetchWeatherData(location);
             } else {
                 alert("Please enter a location.");
             }
         }
-    
+
+        // Fetch Moisture Data (with random fallback logic)
+        async function fetchMoistureData() {
+            try {
+                // Example API for getting moisture data (replace with actual API endpoint)
+                const MOISTURE_URL = `https://api.agri-api.com/v1/moisture?apikey=${MOISTURE_API_KEY}`;
+                const moistureResponse = await fetch(MOISTURE_URL);
+                const moistureData = await moistureResponse.json();
+
+                if (moistureData && moistureData.moisture) {
+                    updateMoistureAndValveStatus(moistureData.moisture);
+                } else {
+                    handleMoistureFallback();
+                }
+            } catch (error) {
+                console.error("Error fetching moisture data:", error);
+                handleMoistureFallback();
+            }
+        }
+
+        // Fallback function for Moisture Data (generate random values)
+        function handleMoistureFallback() {
+            const randomMoisture = Math.floor(Math.random() * (1024 - 300 + 1)) + 300;
+            updateMoistureAndValveStatus(randomMoisture);
+        }
+
+        // Update moisture and valve status based on moisture value
+        function updateMoistureAndValveStatus(moisture) {
+            document.getElementById("moisture").innerText = moisture;
+
+            if (moisture > 600) {
+                document.getElementById("valveStatus").innerText = "ON";
+            } else {
+                document.getElementById("valveStatus").innerText = "OFF";
+            }
+        }
+
+        // Initialize page with user data and fetch initial data
         window.onload = function() {
             const username = localStorage.getItem("username") || "@user";
             const location = localStorage.getItem("location") || "Unknown Location";
             document.getElementById("username").innerText = username;
             document.getElementById("location").innerText = location;
+
+            // Fetch initial weather data for stored location
+            fetchWeatherData(location);
+
+            // Fetch initial moisture data when the page loads
+            fetchMoistureData();
         };
     </script>
 </head>
 <body>
-  <header>
-    <div class="header-content">
-      <h1>CropMitra <span class="leaf">🌿</span></h1>
-      <nav>
-        <a href="dashboard.html">Home</a>
-        <a href="Info.html">Info</a>
-        <a href="MarketRate.html">MarketRate</a>
-        <a href="contact.html">Contact</a>
-        <!-- <span class="user-icon">👤</span> -->
-      </nav>
-    </div>
-  </header>
-  <main>
-    <div class="greeting">
-      <p>Greetings, <span id="username">@user</span>! | 📍 <span id="location">currentLocation</span></p>
-    </div>
-    <div class="location-input-container" style="margin: 20px 0;">
-      <input type="text" id="input-field" placeholder="Enter village/city" style="padding: 8px; 
-                                                                                  width: 200px; 
-                                                                                  border-radius: 5px; 
-                                                                                  border: 1px solid #ccc;
-                                                                                  font-size: large;">
-      <button onclick="handleLocationInput()" 
-      style="padding: 8px 12px; 
-             border: none; 
-             background-color: hsl(134, 61%, 41%); /* original green */
-             color: white; 
-             border-radius: 5px; 
-             cursor: pointer;
-             font-size: large;"
-      onmouseover="this.style.backgroundColor='hsl(134, 61%, 31%)'"
-      onmouseout="this.style.backgroundColor='hsl(134, 61%, 41%)'">
-  Fetch
-</button>
-
-    </div>
-    <div class="sensor-container">
-      <div class="sensor-box">
-        <h3>Humidity</h3>
-        <p id="humidity">--%</p>
-      </div>
-      <div class="sensor-box">
-        <h3>Temperature</h3>
-        <p id="temperature">--°C</p>
-      </div>
-      <div class="sensor-box">
-        <h3>Moisture Content</h3>
-        <p id="moisture">-- Optimal</p>
-      </div>
-      <div class="sensor-box">
-        <h3>Valve Status</h3>
-        <p id="valveStatus">OFF</p>
-      </div>
-    </div>
-  </main>
-  <footer>
-    <p>©CropMitra_SIP11 Ltd</p>
-  </footer>
+    <header>
+        <div class="header-content">
+            <h1>CropMitra <span class="leaf">🌿</span></h1>
+            <nav>
+                <a href="dashboard.html">Home</a>
+                <a href="Info.html">Info</a>
+                <a href="MarketRate.html">MarketRate</a>
+                <a href="contact.html">Contact</a>
+            </nav>
+        </div>
+    </header>
+    <main>
+        <div class="greeting">
+            <p>Greetings, <b><span id="username">@user</span></b>! | 📍 <i><span id="location">currentLocation</span></i></p>
+        </div>
+        <div class="location-input-container" style="margin: 20px 0;">
+            <input type="text" id="input-field" placeholder="Enter village/city" style="padding: 8px; width: 200px; border-radius: 5px; border: 1px solid #ccc; font-size: large;">
+            <button onclick="handleLocationInput()" 
+                style="padding: 8px 12px; border: none; background-color: hsl(134, 61%, 41%); color: white; border-radius: 5px; cursor: pointer; font-size: large;"
+                onmouseover="this.style.backgroundColor='hsl(134, 61%, 31%)'"
+                onmouseout="this.style.backgroundColor='hsl(134, 61%, 41%)'">
+                Fetch
+            </button>
+        </div>
+        <div class="sensor-container">
+            <div class="sensor-box">
+                <h3>Humidity</h3>
+                <p id="humidity">--%</p>
+            </div>
+            <div class="sensor-box">
+                <h3>Temperature</h3>
+                <p id="temperature">--°C</p>
+            </div>
+            <div class="sensor-box">
+                <h3>Moisture Content</h3>
+                <p id="moisture">-- Optimal</p>
+                <button id="refresh-moisture" onclick="fetchMoistureData()" 
+                    style="padding: 5px 10px; background-color: hsl(134, 61%, 41%); color: white; border-radius: 5px; cursor: pointer; font-size: small;">
+                    Refresh Moisture
+                </button>
+            </div>
+            <div class="sensor-box">
+                <h3>Valve Status</h3>
+                <p id="valveStatus">OFF</p>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>©CropMitra_SIP11 Ltd</p>
+    </footer>
 </body>
 </html>

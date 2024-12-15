@@ -72,3 +72,24 @@ footer {
         padding: 15px;
     }
 }
+
+.back-to-dash {
+    font-family: "poppins", sans-serif;
+    margin-top: 2%;
+    color: black;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.back-to-dash:hover {
+    color: white;
+    transform: scale(1.05);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.3);
+}
+

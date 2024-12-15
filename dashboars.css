@@ -12,7 +12,7 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    background-image: url('fields-4765322_1920.jpg');
+    background-image: url('flora-7311021_1920.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -26,7 +26,7 @@ body {
 
 header {
     position: relative;
-    padding: 15px;
+    padding: 8px;
     color: white;
     z-index: 1;
 }
@@ -43,15 +43,41 @@ header::before {
 }
 
 .header-content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  display: flex;
+  align-items: center;
+  justify-content: space-between; /* Space between CropMitra and nav links */
+  padding: 10px 20px;
 }
 
 .header-content h1 {
-    font-size: 2em;
-    color: #a8cfa8;
+  font-size: 2rem;
+  color: lightgoldenrodyellow;
+  margin: 0; /* Remove default margin */
+  font-weight: bold;
 }
+
+.header-content nav {
+  display: flex;
+  gap: 15px; /* Space between navigation links */
+}
+
+.header-content nav a {
+  text-decoration: none;
+  font-size: 1rem;
+  color: hsl(0, 0%, 20%);
+  padding: 8px 12px;
+  border-radius: 5px;
+  transition: all 0.3s ease-in-out;
+}
+
+.header-content nav a:hover {
+  color: hsl(150, 60%, 25%);
+  background-color: hsl(150, 70%, 85%);
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
 
 header nav a {
     margin: 0 10px;

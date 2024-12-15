@@ -25,6 +25,11 @@ header {
   border-radius: 8px; /* Optional: softens the corners */
 }
 
+header a {
+  color: #333;
+  text-decoration: none;
+}
+
 /* Main section styles */
 main {
   padding: 20px;

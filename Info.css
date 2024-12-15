@@ -53,6 +53,11 @@ body {
     text-align: center;
 }
 
+.glass-header a {
+    color: white; /* Change link color to white for contrast */
+    text-decoration: none; /* Remove underline */
+}
+
 .glass-header::before {
     content: '';
     position: absolute;
